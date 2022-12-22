@@ -208,11 +208,25 @@ def do_train(args, cfg):
         start_iter = 0
     trainer.train(start_iter, cfg.train.max_iter)
 
+def register_maize():
+    from detectron2.data.datasets import register_coco_instances
+
+    register_coco_instances("maize_syn_v2_train", {},
+                            "/media/niqbal/T7/datasets/Corn_syn_dataset/2022_GIL_Paper_Dataset_V2/coco_anns/instances_train_2022_2.json",
+                            "/media/niqbal/T7/datasets/Corn_syn_dataset/2022_GIL_Paper_Dataset_V2/camera_main_camera/rect")
+    register_coco_instances("maize_real_v2_val", {},
+                            "/media/niqbal/T7/datasets/Corn_syn_dataset/2022_GIL_Paper_Dataset_V2/coco_anns/instances_val_2022.json",
+                            "/media/niqbal/T7/datasets/Corn_syn_dataset/GIL_dataset/all_days/data")
+    # register_coco_instances("maize_syn_v2_val", {},
+    #                         "/media/niqbal/T7/datasets/maize_yolo/annotations/instances_val.json",
+    #                         "/media/niqbal/T7/datasets/maize_yolo/obj_train_data")
+
 
 def main(args):
     cfg = LazyConfig.load(args.config_file)
     cfg = LazyConfig.apply_overrides(cfg, args.opts)
     default_setup(cfg, args)
+    register_maize()
 
     if args.eval_only:
         model = instantiate(cfg.model)

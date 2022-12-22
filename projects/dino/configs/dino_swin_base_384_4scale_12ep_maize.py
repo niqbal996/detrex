@@ -2,13 +2,13 @@ from detrex.config import get_config
 from .models.dino_swin_base_384 import model
 
 # get default config
-dataloader = get_config("common/data/coco_detr.py").dataloader
+dataloader = get_config("common/data/maize.py").dataloader
 optimizer = get_config("common/optim.py").AdamW
 lr_multiplier = get_config("common/coco_schedule.py").lr_multiplier_12ep
 train = get_config("common/train.py").train
 
 # modify training config
-train.init_checkpoint = "/path/to/swin_base_patch4_window12_384_22kto1k.pth"
+train.init_checkpoint = "/home/niqbal/git/aa_transformers/detrex/pretrained/dino_swin_base_384_4scale_12ep.pth"
 train.output_dir = "./output/dino_swin_base_384_4scale_12ep"
 
 # max training iterations
@@ -31,6 +31,7 @@ train.clip_grad.params.norm_type = 2
 # set training devices
 train.device = "cuda"
 model.device = train.device
+model.num_classes = 2 # weed, maize
 
 # modify optimizer config
 optimizer.lr = 1e-4
@@ -44,7 +45,7 @@ dataloader.train.num_workers = 16
 # please notice that this is total batch size.
 # surpose you're using 4 gpus for training and the batch size for
 # each gpu is 16/4 = 4
-dataloader.train.total_batch_size = 16
+dataloader.train.total_batch_size = 1
 
 # dump the testing results into output_dir for visualization
 dataloader.evaluator.output_dir = train.output_dir

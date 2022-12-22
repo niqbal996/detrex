@@ -45,8 +45,9 @@ def get_config(config_path):
         omegaconf.DictConfig: a config object
     """
     cfg_file = pkg_resources.resource_filename(
-        "detrex.config", os.path.join("configs", config_path)
+        "detrex", os.path.join("configs", config_path)
     )
+    cfg_file = os.path.join('/home/niqbal/git/aa_transformers/detrex/configs/', config_path)
     if not os.path.exists(cfg_file):
         raise RuntimeError("{} not available in detrex configs!".format(config_path))
     cfg = LazyConfig.load(cfg_file)
