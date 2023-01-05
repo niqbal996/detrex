@@ -89,8 +89,8 @@ def export_tracing(torch_model, inputs, onnx_model_path, opset_version=16, simpl
     #         torch.jit.save(ts_model, f)
     #     dump_torchscript_IR(ts_model, args.output)
     # elif args.format == "onnx":
-    # with PathManager.open(onnx_model_path, "wb") as f:
-    #     torch.onnx.export(traceable_model, (image,), f, opset_version=opset_version)
+    with PathManager.open(onnx_model_path, "wb") as f:
+        torch.onnx.export(traceable_model, (image,), f, opset_version=opset_version)
 
     if simplify==True:
         import onnx
